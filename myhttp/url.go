@@ -1,17 +1,16 @@
-package api
+package myhttp
 
 import (
-	"github.com/plumos/breakfast/auth"
-	"github.com/plumos/breakfast/web"
+	"github.com/gin-gonic/gin"
 )
 
 func HttpStart() {
-	handle := web.NewHandle("/api")
-	handle.PostOri("/login", login)
-	registryUrls(handle)
-	handle.Run(":80")
-}
+	r := gin.Default()
+	api := r.Group("api")
+	api.POST("/dataEncrypt", dataEncrypt)
+	api.POST("/dataDecrypt", dataDecrypt)
+	api.POST("/sign", sign)
+	api.POST("/verifySign", verifySign)
+	api.POST("/resultNotify", resultNotify)
 
-func registryUrls(handle *web.Handle) {
-	handle.RG.Use(auth.JWTAuth())
 }
